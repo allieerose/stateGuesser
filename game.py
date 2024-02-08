@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from PIL import Image, ImageTk
 import os
 import random
@@ -10,12 +11,14 @@ class guessThePlace:
         self._master = master
         self._gameFrame = tk.Frame(window, padx=10, pady=10)
         self._gameFrame.pack()
-        self._images = os.listdir('images')
+        self._options = os.listdir('images')
         # select random image for game
-        file_name = random.choice(self._images)
+        file_name = random.choice(self._options)
         self._answer = file_name.split('.')[0]
         self._img_load = Image.open('images/'+file_name).resize((250, 250))
         self._img_render = ImageTk.PhotoImage(self._img_load)
+        # reformat options for later guess matching
+        self._options = [x.split('.')[0] for x in self._options]
         # add game elements to frame
         header = ttk.Label(self._gameFrame, text='Guess this U.S. state')
         header.pack()
@@ -35,9 +38,9 @@ class guessThePlace:
         self._question = ttk.Label(guess_frame, image=question_render)
         self._question.image = question_render
         self._question.grid(row=0, column=0)
-        self._options = ttk.Combobox(guess_frame)
-        self._options['values'] = [x.split('.')[0] for x in self._images]
-        self._options.grid(row=0, column=1)
+        self._guess = ttk.Combobox(guess_frame)
+        self._guess['values'] = [x.split('.')[0] for x in self._options]
+        self._guess.grid(row=0, column=1)
         guess_button = ttk.Button(guess_frame, text='Guess',
                                   command=self.check_guess)
         guess_button.grid(row=0, column=2)
@@ -56,11 +59,21 @@ class guessThePlace:
         Removes the game from the window and returns the start menu. Note that
         this ends the game.
         """
-        self._gameFrame.destroy()
-        self._master.go_to_menu()
+        confirm = messagebox.askquestion(title='Return to menu?',
+                                         message='Are you sure you want to '
+                                                 'return to the menu? This '
+                                                 'will end the current game.')
+        if confirm == 'yes':
+            self._gameFrame.destroy()
+            self._master.go_to_menu()
 
-    def check_guess(self, guess):
-        if guess == self._answer:
+    def check_guess(self):
+        # retrieve the guess
+        guess = self._guess.get().title()
+        if guess not in self._options:
+            # error message, don't log guess
+            pass
+        elif guess == self._answer:
             # win state
             pass
         else:

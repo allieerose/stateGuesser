@@ -26,6 +26,9 @@ class main_window:
         self._menuFrame.pack()
 
     def start_game(self):
+        """
+        Removes the start menu contents from the window and starts the game.
+        """
         self._menuFrame.pack_forget()  # remove start menu items from window
         guessThePlace(self, self._window)
 
