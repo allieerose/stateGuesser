@@ -22,15 +22,6 @@ class guessThePlace:
         self._answer = None
         self.add_game_elements()
 
-    def initialize_widgets(self):
-        """
-        DESC
-        """
-        self._widgets.add_widget('game_frame',
-                                 tk.Frame(self._window, padx=10, pady=10))
-        self._widgets.add_widget('past_guesses', tk.Frame(self._game_frame))
-        self._widgets.add_widget('options', os.listdir('images'))
-
     def connect_to_socket(self):
         """
         Connects to the ZeroMQ socket for communication with the microservice.
@@ -43,7 +34,6 @@ class guessThePlace:
         """
         Adds a ttk Label widget to the game frame with the given text.
         """
-        # game_frame = self._widgets.get_widget('game_frame')
         new_label = ttk.Label(self._game_frame, text=text)
         new_label.pack()
 
