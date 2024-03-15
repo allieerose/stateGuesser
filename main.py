@@ -7,7 +7,6 @@ class main_window:
     def __init__(self) -> None:
         self._window = tk.tix.Tk()
         self._window.title("State Guesser")
-        self._window.iconbitmap('')
         # set default width/height of window
         width = str(4*self._window.winfo_screenwidth()//10)
         height = str(7*self._window.winfo_screenheight()//10)
