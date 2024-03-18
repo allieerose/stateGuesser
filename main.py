@@ -7,14 +7,20 @@ class main_window:
     def __init__(self) -> None:
         self._window = tk.tix.Tk()
         self._window.title("State Guesser")
-        # set default width/height of window
-        width = str(4*self._window.winfo_screenwidth()//10)
-        height = str(7*self._window.winfo_screenheight()//10)
-        self._window.geometry(width+'x'+height)
+        self.set_window_dimensions(self)
         self._menuFrame = tk.Frame(self._window, padx=10, pady=10)
         self._add_start_menu_items()
         self.go_to_menu()
         self._window.mainloop()
+
+    def set_window_dimensions(self):
+        """
+        Sets the default size of the application window to 4/10 x 7/10 of the
+        user's screen.
+        """
+        width = str(4*self._window.winfo_screenwidth()//10)
+        height = str(7*self._window.winfo_screenheight()//10)
+        self._window.geometry(width+'x'+height)
 
     def go_to_menu(self):
         """
